@@ -1,24 +1,40 @@
-
-class Solution {
-    public int minPathSum(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-
-        int[] dp = new int[n];
-        dp[0] = grid[0][0];
-
-        for (int j = 1; j < n; j++) {
-            dp[j] = dp[j - 1] + grid[0][j];
-        }
-
-        for (int i = 1; i < m; i++) {
-            dp[0] += grid[i][0];
-
-            for (int j = 1; j < n; j++) {
-                dp[j] = grid[i][j] + Math.min(dp[j], dp[j - 1]);
+public class FindSubsets {
+    //using StringBuilder
+    public static void findSubsets(String str, int i, StringBuilder ans) {
+        //base case
+        if(i == str.length()) {
+            if(ans.length() == 0) {
+                System.out.println("null");
+                return;
             }
+            System.out.println(ans);
+            return;
         }
 
-        return dp[n - 1];
+        //recursion - make choice
+        findSubsets(str, i+1, ans.append(str.charAt(i)));
+        ans.deleteCharAt(ans.length()-1);
+        findSubsets(str, i+1, ans);
+    }
+
+    //using string
+    public static void findSubsets(String str, int i, String ans) {
+        if(i == str.length()) {
+            if(ans.length() == 0) {
+                System.out.println("null");
+            } else {
+                System.out.println(ans);
+            }
+            return;
+        }
+        
+        findSubsets(str, i+1, ans);
+        findSubsets(str, i+1, ans+str.charAt(i));
+    }
+    public static void main(String args[]) {
+        String str = "abc";
+        findSubsets(str, 0, new StringBuilder(""));
+        System.out.println("--------------------");
+        findSubsets(str, 0, "");
     }
 }
