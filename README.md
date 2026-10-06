@@ -1,40 +1,43 @@
-public class FindSubsets {
-    //using StringBuilder
-    public static void findSubsets(String str, int i, StringBuilder ans) {
-        //base case
-        if(i == str.length()) {
-            if(ans.length() == 0) {
-                System.out.println("null");
-                return;
-            }
-            System.out.println(ans);
-            return;
+class Solution {
+    public int minDistance(String word1, String word2) {
+        // Use the shorter string for the DP array
+        if (word1.length() < word2.length()) {
+            String temp = word1;
+            word1 = word2;
+            word2 = temp;
         }
 
-        //recursion - make choice
-        findSubsets(str, i+1, ans.append(str.charAt(i)));
-        ans.deleteCharAt(ans.length()-1);
-        findSubsets(str, i+1, ans);
-    }
+        int m = word1.length();
+        int n = word2.length();
 
-    //using string
-    public static void findSubsets(String str, int i, String ans) {
-        if(i == str.length()) {
-            if(ans.length() == 0) {
-                System.out.println("null");
-            } else {
-                System.out.println(ans);
-            }
-            return;
+        int[] dp = new int[n + 1];
+
+        // Convert empty string to word2
+        for (int j = 0; j <= n; j++) {
+            dp[j] = j;
         }
-        
-        findSubsets(str, i+1, ans);
-        findSubsets(str, i+1, ans+str.charAt(i));
-    }
-    public static void main(String args[]) {
-        String str = "abc";
-        findSubsets(str, 0, new StringBuilder(""));
-        System.out.println("--------------------");
-        findSubsets(str, 0, "");
+
+        for (int i = 1; i <= m; i++) {
+            int prev = dp[0];
+            dp[0] = i;
+
+            for (int j = 1; j <= n; j++) {
+                int temp = dp[j];
+
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[j] = prev;
+                } else {
+                    dp[j] = 1 + Math.min(
+                        prev,                  // Replace
+                        Math.min(dp[j],       // Delete
+                                 dp[j - 1])   // Insert
+                    );
+                }
+
+                prev = temp;
+            }
+        }
+
+        return dp[n];
     }
 }
