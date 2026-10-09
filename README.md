@@ -1,18 +1,19 @@
 class Solution {
-    public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int i = m-1;
-        int j = n-1;
-        int k = m + n - 1;
-        while(j >= 0){
-            if(i >= 0 && nums1[i] > nums2[j]){
-                nums1[k] = nums1[i];
-                i--;
-            }else{
-                nums1[k] = nums2[j];
-                j--;
+    public int lengthOfLongestSubstring(String s) {
+        int left = 0;
+        int maxLength = 0;
+        HashSet<Character> charSet = new HashSet<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            while (charSet.contains(s.charAt(right))) {
+                charSet.remove(s.charAt(left));
+                left++;
             }
-            k--;
+
+            charSet.add(s.charAt(right));
+            maxLength = Math.max(maxLength, right - left + 1);
         }
-        
+
+        return maxLength;       
     }
 }
