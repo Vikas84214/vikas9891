@@ -1,11 +1,6 @@
-/**
- * @param {number} millis
- */
-async function sleep(millis) {
-    await new Promise(resolve => setTimeout(resolve, millis));
+function createCounter(start) {
+  let count = start;
+  return function() {
+    return count++;
+  }
 }
-
-/** 
- * let t = Date.now()
- * sleep(100).then(() => console.log(Date.now() - t)) // 100
- */
