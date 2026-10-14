@@ -1,23 +1,21 @@
-/**
- * @param {number} rowsCount
- * @param {number} colsCount
- * @return {Array<Array<number>>}
- */
-Array.prototype.snail = function(rowsCount, colsCount) {
-    if(this.length !==  rowsCount * colsCount) return [];
-    let result = Array(rowsCount).fill([]).map(() => []);
-    for(let j = 0; j < this.length; j++){
-        const i = Math.floor(j / rowsCount);
-        if(i % 2 === 0){
-            result[j % rowsCount][i] = this[j];
-        }else{
-            result[rowsCount - j % rowsCount - 1][i] = this[j];
-        }
-    }
-    return result;
-}
+const TimeLimitedCache = function() {
+    this.cache = new Map();  // Using Map so we don't need a size variable
+};
 
-/**     
- * const arr = [1,2,3,4];
- * arr.snail(1,4); // [[1,2,3,4]]
- */
+TimeLimitedCache.prototype.set = function(key, value, duration) {
+    let found = this.cache.has(key);
+    if (found) clearTimeout(this.cache.get(key).ref);  // Cancel previous timeout
+    this.cache.set(key, {
+        value,  // Equivalent to `value: value`
+        ref: setTimeout(() => this.cache.delete(key), duration)
+    });
+    return found;
+};
+
+TimeLimitedCache.prototype.get = function(key) {
+    return this.cache.has(key) ? this.cache.get(key).value : -1;
+};
+
+TimeLimitedCache.prototype.count = function() {
+    return this.cache.size;
+};
