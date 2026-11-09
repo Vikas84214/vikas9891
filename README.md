@@ -1,1 +1,27 @@
-HackerRank Orchestrate is a global 24-hour virtual hackathon where participants design, build, and ship a production-ready AI agent. It evaluates your ability to combine AI collaboration, system design, deterministic software engineering, and architectural defense.   What the Program IsFormat: 24-hour virtual hackathon (individual participation).   Core Objective: Build a functioning AI agent in 24 hours to solve a real-world problem (e.g., ticket triage routers, notification systems, or multi-modal agents).   Development Flexibility: You can use any development setup, IDE, or AI coding assistant of your choice (e.g., Cursor, Claude Code, Codex, VS Code).   4-Part Evaluation Model: Submissions are evaluated on four distinct signals:   Code Base: Software quality, guardrails, schema enforcement, retry loops, and repository structure.   Agent Output: Correctness against a hidden golden dataset on real test cases.   Development Process: Submitted chat transcripts showing how you guided, tested, and corrected the AI.   AI Defense Interview: A 30-minute interactive interview with an AI Judge immediately after code submission to explain architectural choices, edge-case handling, and error handling.   Key Participant Benefits1. Financial & Prize Rewards1st Place: $1,200 cash prize.   2nd to 5th Place: $300 cash prize each.   Credits: Codex/AI platform developer credits.   2. Career & Hiring ExposureTop Tech Access: Direct recruitment and talent exposure opportunities with partner technology companies.   Mentorship: 1:1 interaction opportunities with industry AI leaders and experts.   HackerRank Perks: HackerRank AI Mock Interview credits for all participants and exclusive HackerRank merchandise for winners.   3. AI Engineering Skill BuildingPractical Experience: Real-world practice in building deterministic guardrails, structured JSON outputs, prompt injection protections, and fallback mechanisms.   Proof of Competency: Demonstrates hands-on ability to build, evaluate, and defend an AI agent beyond basic LLM prompting.
+/**
+ * @param {Function} fn
+ * @return {Array}
+ */
+Array.prototype.groupBy = function(fn) {
+  // Reduce the array into a single object
+  return this.reduce((grouped, item) => {
+    // Apply the provided callback function to get the key
+    const key = fn(item);
+    
+    // If the key doesn't exist in the grouped object, create a new array for it
+    if (!grouped[key]) {
+      grouped[key] = [];
+    }
+    
+    // Push the current item to the array associated with the key
+    grouped[key].push(item);
+    
+    // Return the updated grouped object for the next iteration
+    return grouped;
+  }, {});
+};
+
+
+/**
+ * [1,2,3].groupBy(String) // {"1":[1],"2":[2],"3":[3]}
+ */
